@@ -1,9 +1,34 @@
-import React from 'react';
+
 import ReactDOM from 'react-dom/client';
+import React, { useState, useEffect} from 'react';
+import axios from 'axios';
 
 const App = ()=> {
+  const [movie,setMovie]= useState([]);
+  useEffect(()=>{
+    const fetchMovies = async()=>{
+      const response = await axios.get('api/movies');
+       setMovie(response.data);
+    }
+    fetchMovies();
+  },[]);
+
+
   return (
-    <h1>FullStack Template</h1>
+    <div>
+    <h1>Movies ({movie.length})</h1>
+
+    <ul>
+      {
+        movie.map(movie =>{
+          return(
+            <li key = {movie.id }>{movie.title}</li>
+          );
+        })
+      }
+    </ul>
+
+    </div>
   );
 };
 
